@@ -1,56 +1,57 @@
-# 💰 Financial Transaction RAG Chatbot
+# 💰 Financial Transaction AI Analyst
 
 ![Architecture](https://img.shields.io/badge/Architecture-FastAPI%20%2B%20React-blue?style=for-the-badge&logo=react)
 ![Python](https://img.shields.io/badge/Python-3.8+-green.svg?style=for-the-badge&logo=python)
 ![ChromaDB](https://img.shields.io/badge/Vector%20DB-ChromaDB-purple.svg?style=for-the-badge)
 ![Groq](https://img.shields.io/badge/LLM-Groq-orange.svg?style=for-the-badge)
+![Recharts](https://img.shields.io/badge/Charts-Recharts-cyan.svg?style=for-the-badge)
 
-An enterprise-grade, production-ready AI application that uses Retrieval-Augmented Generation (RAG) to answer questions and analyze your financial transaction data.
+An enterprise-grade, production-ready AI application that uses Retrieval-Augmented Generation (RAG) to dynamically answer questions, graph trends, and deeply analyze your raw financial transaction data.
 
-## 🌟 Highlights
+---
 
-- **Aesthetic UI:** Premium dark-themed React frontend built with Vite, featuring glassmorphism and micro-animations.
-- **Robust API:** Fully decoupled FastAPI backend delivering lightning-fast model inference endpoints.
-- **Semantic Search:** Ingests document streams and retrieves contextually relevant financial anomalies and historical spending via ChromaDB.
-- **LLM Agnostic:** Out-of-the-box integration with Groq API (Llama 3.3, Llama 3.1, Mixtral) for blazingly fast token generation.
+## 🌟 Highlights & Features
+
+- **Dynamic Data Visualization:** Automatically generates context-aware, completely animated **Pie Charts** whenever you ask about expense categories, quantitative breakdowns, or spending summaries. Powered by structured JSON-mode LLM responses and `recharts`.
+- **Premium User Interface:** A gorgeous, luxurious "Obsidian & Gold" color palette built in native React. Includes custom micro-animations, glassmorphism layouts, and an ambient 3D Aurora Mesh gradient background.
+- **Robust AI Backend Engine:** Fully decoupled FastAPI backend delivering lightning-fast vector retrieval and inference routing.
+- **Local Dense Retrieval:** Seamless document stream ingestion mapped locally to a high-speed `ChromaDB` vector database utilizing HuggingFace `all-MiniLM-L6-v2` embeddings.
+- **Hardware-Enforced Logic:** Configured against the Groq API (Llama 3 generation) using native JSON Object Mode enforcement, drastically eliminating delimiter/formatting errors when passing graph data to the frontend.
 
 ## 🏗️ System Architecture
 
-The project has evolved into a modern decoupled architecture:
+The project operates through a modernized, decoupled architecture cleanly separating the AI/Vector layer from the DOM/UI layer:
 
-```
+```text
 financial-rag-chatbot/
 ├── .env                     # Global environment variables
-├── run.bat                  # One-click startup script for Windows
-├── api_app.py               # FastAPI backend entrypoint
-├── src/                     # Core Backend Framework Layer
-│   ├── embeddings.py        # HuggingFace MiniLM Embeddings
-│   ├── vectorstore.py       # ChromaDB interactions Layer
-│   ├── llm.py               # Groq LLM initialization
-│   ├── rag_pipeline.py      # Core RAG logic and LangChain pipelines
-│   └── utils.py             # Server-side utils
+├── run.bat                  # One-click startup script for Windows developers
+├── api_app.py               # FastAPI backend entrypoint (Routers)
+├── src/                     # Core Backend Logic Context
+│   ├── embeddings.py        # Sentence Embedder Generator
+│   ├── vectorstore.py       # Local ChromaDB Layer
+│   ├── llm.py               # Groq LLM Connection with JSON Enforcement
+│   └── rag_pipeline.py      # LangChain Retriever + QA Chain
 ├── frontend/                # React Vite Application Layer
 │   ├── src/
-│   │   ├── api.js           # REST API fetch calls
-│   │   ├── App.jsx          # Root Layout
-│   │   ├── index.css        # Vanilla CSS Design System
-│   │   └── components/      # UI Web Components (Sidebar, ChatPanel)
-│   └── package.json
-└── data/                    # Local storage for transaction docs and Chroma index
+│   │   ├── api.js           # REST API fetch interface
+│   │   ├── App.jsx          # Root Layout & Main Grid
+│   │   ├── index.css        # Premium Design System Variables
+│   │   └── components/      # UI Web Components (ChatPanel, ChartWrapper)
+│   └── package.json         # UI Dependencies
+└── data/                    # Storage for localized transaction docs
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start Guide
 
 ### 1. Prerequisites
-
 - **Python 3.8+**
 - **Node.js 18+** & **npm**
-- **Groq API Key**: Get one for free at [Groq Console](https://console.groq.com)
+- **Groq API Key**: Get one for free at the [Groq Console](https://console.groq.com).
 
-### 2. Setup the Environment
-
+### 2. Configure Backend Environment
 Open your terminal and create your Python virtual environment:
 
 ```bash
@@ -62,58 +63,55 @@ cd financial-rag-chatbot
 python -m venv .venv
 .venv\Scripts\activate
 
-# Install Backend Dependencies
+# Install Core Backend Dependencies
 pip install -r requirements.txt
 ```
 
-Set up your API Key in the root of your project:
+Prepare the configuration block:
 ```bash
-cp .env.example .env
-# Edit .env and paste in your GROQ_API_KEY
+# Create an `.env` file in the root
+type NUL > .env
+```
+Open the `.env` file and define your active LLM API credentials:
+```env
+GROQ_API_KEY=your_groq_api_key_here
 ```
 
 ### 3. Install Frontend Dependencies
-
 ```bash
 cd frontend
 npm install
 cd ..
 ```
 
-### 4. Running the Application Stack
-
-We have provided a one-click startup script for Windows. Simply double-click **`run.bat`**, or run it from the terminal:
-
+### 4. Running the Complete Application Stack
+For absolute convenience on Windows, a dual-thread automation batch script is provided. Double-click **`run.bat`** or run it via the terminal:
 ```bash
 .\run.bat
 ```
 
-This will concurrently boot:
-- **FastAPI Backend Services** on `http://localhost:8000`
-- **React Frontend Application** on `http://localhost:5173`
+This successfully spawns:
+- **The FastAPI Services Server** simultaneously bound to `http://localhost:8000`
+- **The React Vite Build Server** instantly bound to `http://localhost:5173`
 
-*(The frontend will be readily available in your browser at `http://localhost:5173`)*
-
----
-
-## 📖 Usage Guide
-
-1. **Configure Model**: Once the UI loads, open the Settings tab on the left sidebar to confirm your API Key and select your preferred LLM model.
-2. **Ingest Data**: Switch to the Documents tab. Drag and drop your `.txt` financial transaction logs into the drop zone. The system will automatically compute embeddings and populate the local ChromaDB vector store.
-3. **Query Engine**: Go to the central chat area and ask context-heavy questions like:
-   - *"What were my major expense categories last month?"*
-   - *"Summarize any anomalies in my investment transactions."*
-
-Your frontend operates fully asynchronously with the backend AI engine, maintaining history and session-based contexts seamlessly.
+*(Your frontend will automatically begin accepting events at `http://localhost:5173`)*
 
 ---
 
-## 💻 Tech Stack
-- **API Engine**: FastAPI, Uvicorn
-- **AI / LLM Framework**: LangChain, Groq SDK
-- **Embeddings**: Sentence-Transformers `all-MiniLM-L6-v2`
-- **Vector Database**: ChromaDB
-- **Web UI Engine**: React 19, Vite, Vanilla CSS
+## 📖 Usage Walkthrough
+
+1. **Upload Data:** Expand the left sidebar document panel. Drag and drop any `.txt` financial transaction logs into the target zone. The backend immediately computes your embeddings and mounts the data into `ChromaDB`.
+2. **Text Analysis:** Ask conversational inquiries in the primary chat, such as:
+   - *"Were there any strange investment transactions last week?"*
+   - *"Did I purchase any recurring subscriptions?"*
+3. **Trigger Visualizations:** Prompt the assistant for structured numerical breakdowns. The intelligent backend will natively compile mathematical parameters securely into JSON, prompting the UI to slide open the Visualization Panel:
+   - *"What are the major expense categories in my data?"*
+   - *"Summarize the travel expenses versus food."*
+
+---
+
+## 🔒 Contributing & Pushing to GitHub
+Your local project tree contains an updated `.gitignore` meticulously configured to filter `chroma_db/`, `.env`, and uncompiled `.pyc` caches. You are completely safe to initialize this repository and `git push` without securely leaking keys or vector embeddings.
 
 ## 📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+This application is distributed under the MIT License. See the LICENSE file for details.

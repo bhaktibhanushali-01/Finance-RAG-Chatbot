@@ -94,6 +94,7 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     answer: str
+    chart_data: Optional[list] = None
 
 class SettingsPayload(BaseModel):
     api_key: Optional[str] = None
@@ -137,8 +138,11 @@ async def chat(req: ChatRequest):
     if state.rag_pipeline is None:
         raise HTTPException(status_code=500, detail="Failed to initialise RAG pipeline.")
     try:
-        answer = state.rag_pipeline.query(req.message)
-        return ChatResponse(answer=answer)
+        response_data = state.rag_pipeline.query(req.message)
+        return ChatResponse(
+            answer=response_data.get("answer", str(response_data)),
+            chart_data=response_data.get("chart_data")
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

@@ -578,14 +578,57 @@ h1, h2, h3, h4 {
   color: var(--accent-red);
 }
 
+/* ---------- Main Content Layout ---------- */
+.main-content-layout {
+  flex: 1;
+  display: flex;
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
 /* ---------- Main Content (Chat Panel) ---------- */
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  position: relative;
-  z-index: 1;
   min-width: 0;
+}
+
+/* ---------- Right Panel (Visualizations) ---------- */
+.visualization-panel {
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  border-left: 1px solid var(--border-subtle);
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(12px);
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.visualization-panel.active {
+  width: 380px;
+  min-width: 380px;
+  opacity: 1;
+}
+
+.visualization-panel-inner {
+  padding: 24px;
+  width: 380px;
+}
+
+.chart-wrapper {
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.chart-title {
+  font-size: 16px;
+  margin-bottom: 8px;
+  text-align: center;
 }
 
 /* Header */

@@ -38,7 +38,8 @@ class LLMManager:
         llm = ChatGroq(
             groq_api_key=api_key,
             model_name=model,
-            temperature=temperature
+            temperature=temperature,
+            model_kwargs={"response_format": {"type": "json_object"}}
         )
         
         print("✅ LLM initialized successfully")

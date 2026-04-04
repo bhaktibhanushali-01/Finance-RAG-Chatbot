@@ -54,7 +54,7 @@ class RAGPipeline:
         )
         return chain
     
-    def query(self, question: str) -> str:
+    def query(self, question: str) -> dict:
         """
         Execute a query through the RAG pipeline.
         
@@ -62,13 +62,33 @@ class RAGPipeline:
             question: User question
             
         Returns:
-            Generated answer
+            Dictionary with parsed answer and optional chart_data
         """
+        import json
         print(f"❓ Query: {question}")
-        answer = self.chain.invoke(question)
-        print(f"✅ Answer generated")
-        return answer
-    
+        raw_answer = self.chain.invoke(question)
+        print(f"✅ Raw Answer generated")
+        
+        try:
+            # The LLM should return JSON. Try to parse it.
+            # Sometimes models return markdown backticks like ```json ... ```
+            cleaned = raw_answer.strip()
+            if cleaned.startswith("```json"):
+                cleaned = cleaned[7:]
+            if cleaned.startswith("```"):
+                cleaned = cleaned[3:]
+            if cleaned.endswith("```"):
+                cleaned = cleaned[:-3]
+                
+            parsed = json.loads(cleaned.strip())
+            return parsed
+        except Exception as e:
+            print(f"⚠️ Failed to parse JSON. Falling back to raw text. Error: {e}")
+            return {
+                "answer": raw_answer,
+                "chart_data": None
+            }
+
     def query_with_sources(self, question: str) -> dict:
         """
         Execute a query and return answer with source documents.
@@ -82,10 +102,11 @@ class RAGPipeline:
         # Retrieve source documents
         source_docs = self.retriever.get_relevant_documents(question)
         
-        # Generate answer
-        answer = self.query(question)
+        # Generate answer dict
+        response_data = self.query(question)
         
         return {
-            "answer": answer,
+            "answer": response_data.get("answer", str(response_data)),
+            "chart_data": response_data.get("chart_data"),
             "sources": source_docs
         }

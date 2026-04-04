@@ -40,11 +40,22 @@ PROMPT_TEMPLATE = """You are a financial assistant analyzing transaction data.
 Use ONLY the context below to answer the question. Be concise and accurate.
 If you don't know, say "I don't have enough information."
 
+If the question asks for a breakdown, summary of categories, or any quantitative mapping that can be visualized as a pie chart, generate that chart data as part of your answer.
+If no graph is applicable, return null for chart_data.
+
+You MUST respond strictly in valid JSON format matching the following structure:
+{{
+  "answer": "Your detailed text answer here...",
+  "chart_data": [
+    {{"name": "Category 1", "value": 100}},
+    {{"name": "Category 2", "value": 250}}
+  ]
+}}
+For 'chart_data', use null if not applicable.
+
 Context: {context}
 
-Question: {question}
-
-Answer:"""
+Question: {question}"""
 
 # Streamlit page configuration
 PAGE_TITLE = "💰 Financial RAG Chatbot"
