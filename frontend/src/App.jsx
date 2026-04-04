@@ -31,7 +31,13 @@ export default function App() {
   };
 
   return (
-    <div className="app-layout">
+        <div className="app-layout">
+      <div className="aurora-container">
+        <div className="aurora-orb aurora-orb-1"></div>
+        <div className="aurora-orb aurora-orb-2"></div>
+        <div className="aurora-orb aurora-orb-3"></div>
+      </div>
+
       <Sidebar
         status={status}
         onToast={showToast}

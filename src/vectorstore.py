@@ -16,9 +16,14 @@ class VectorStoreManager:
     """Manages ChromaDB vector store operations."""
     
     def __init__(self):
-        self.embeddings = EmbeddingsManager.get_embeddings()
+        self.embeddings = None
         self.vectorstore: Optional[Chroma] = None
         self.retriever = None
+
+    def _get_embeddings(self):
+        if self.embeddings is None:
+            self.embeddings = EmbeddingsManager.get_embeddings()
+        return self.embeddings
     
     def load_documents(self, data_dir: Path = config.DATA_DIR) -> List:
         """
@@ -82,7 +87,7 @@ class VectorStoreManager:
         
         self.vectorstore = Chroma.from_documents(
             chunks,
-            self.embeddings,
+            self._get_embeddings(),
             persist_directory=str(persist_directory)
         )
         
@@ -110,7 +115,7 @@ class VectorStoreManager:
         
         self.vectorstore = Chroma(
             persist_directory=str(persist_directory),
-            embedding_function=self.embeddings
+            embedding_function=self._get_embeddings()
         )
         
         print("✅ Vector store loaded successfully")

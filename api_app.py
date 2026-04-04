@@ -7,8 +7,10 @@ import os
 import sys
 from pathlib import Path
 from typing import Optional
+import asyncio
 
 from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -80,7 +82,8 @@ def _rebuild_pipeline():
 
 @app.on_event("startup")
 async def on_startup():
-    _try_load_vectorstore()
+    # Run the heavy load operation in a background thread so the server port binds immediately
+    asyncio.create_task(run_in_threadpool(_try_load_vectorstore))
 
 
 # ---------------------------------------------------------------------------
