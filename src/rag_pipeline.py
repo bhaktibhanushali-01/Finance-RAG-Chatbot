@@ -100,7 +100,7 @@ class RAGPipeline:
             Dictionary with 'answer' and 'sources'
         """
         # Retrieve source documents
-        source_docs = self.retriever.get_relevant_documents(question)
+        source_docs = self.retriever.invoke(question)
         
         # Generate answer dict
         response_data = self.query(question)
